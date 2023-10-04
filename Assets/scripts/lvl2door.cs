@@ -9,11 +9,22 @@ public class lvl2door : MonoBehaviour
     {
         if (other.transform.tag == "Player")
         {
-            if (Input.GetKeyDown(KeyCode.O))
+
+            if(gameObject.name == "castle door")
             {
                 SceneManager.LoadScene(1);
             }
+            if(gameObject.name == "chest")
+            {
+                SceneManager.LoadScene(2);
+            }
+            /*if (Input.GetKeyDown(KeyCode.O))
+            {*/
+                
+            //}
         }
+
+
     }
 }
     
