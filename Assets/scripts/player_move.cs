@@ -20,12 +20,16 @@ public class player_move : MonoBehaviour
     public float sprintSpeed = 10f; 
     public float speed = 5f; 
 
-    Rigidbody2D myBody; 
+    Rigidbody2D myBody;
+    Animator myAnim;
+    SpriteRenderer myRend;
 
     // Start is called before the first frame update
     void Start()
     {
         myBody = GetComponent<Rigidbody2D>(); 
+        myAnim = GetComponent<Animator>();
+        myRend = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -35,28 +39,39 @@ public class player_move : MonoBehaviour
         
         if(Input.GetButtonDown("Jump") && grounded )
         {
+            myAnim.SetBool("jump", true); 
             jump = true;
         }
 
         if (Input.GetButton("Sprint")) 
         {
+            myAnim.SetBool("run", true); 
             sprint = true;
         }
         if(horizontalMove == 0)
         {
+            myAnim.SetBool("run", false); 
             sprint = false;
         }
-       /* else if( horizontalMove == 0 )
+
+        if (horizontalMove > 0.2f)
         {
-            sprintTog = false;
+            myAnim.SetBool("walk", true);
+            myRend.flipX = true;
         }
-
-       /* if(sprintTog == false)
+        else if(horizontalMove < -0.2)
         {
-            sprint = false; 
-        }*/
+            myAnim.SetBool("walk", true);
+            myRend.flipX = false;
+        }
+        else
+        {
+            myAnim.SetBool("walk", false); 
+        }
+        
+       
 
-        Debug.Log("sprint = " + sprint);
+
     }
     
     void FixedUpdate()
@@ -90,6 +105,7 @@ public class player_move : MonoBehaviour
 
         if (hit.collider != null && hit.transform.tag == "Ground")
         {
+            myAnim.SetBool("jump", false); 
             grounded = true;
         }
         else
